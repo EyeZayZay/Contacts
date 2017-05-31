@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             try {
                 Matrix matrix = new Matrix();
-                matrix.postRotate(270);
+                matrix.postRotate(90);
                 InputStream image_stream = getContentResolver().openInputStream(currentPhotoURI);
                 Bitmap bitmap = BitmapFactory.decodeStream(image_stream);
                 Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
