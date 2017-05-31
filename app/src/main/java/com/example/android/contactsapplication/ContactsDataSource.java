@@ -67,9 +67,9 @@ public class ContactsDataSource {
     private Contact cursorToContact(Cursor cursor) {
         Contact Contact = new Contact();
         Contact.setId(cursor.getLong(0));
-        Contact.setfirstName(cursor.getString(1));
-        Contact.setlastName(cursor.getString(2));
-        Contact.setPhoto(cursor.getString(3));
+        Contact.setfirstName(cursor.getString(0));
+        Contact.setlastName(cursor.getString(1));
+        Contact.setPhoto(cursor.getString(2));
         return Contact;
     }
 }

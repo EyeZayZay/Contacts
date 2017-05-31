@@ -2,6 +2,8 @@ package com.example.android.contactsapplication;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -16,8 +18,11 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static android.R.attr.src;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,14 +48,18 @@ public class MainActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), currentPhotoURI);
-            } catch (IOException io){
-                io.printStackTrace();
+                Matrix matrix = new Matrix();
+                matrix.postRotate(270);
+                InputStream image_stream = getContentResolver().openInputStream(currentPhotoURI);
+                Bitmap bitmap = BitmapFactory.decodeStream(image_stream);
+                Bitmap resizedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                Bitmap scaledBitmap = resizedBitmap.createScaledBitmap(resizedBitmap, 230, 300, true);
+                photoIV.setImageBitmap(scaledBitmap);
             }
-            photoIV.setImageBitmap(imageBitmap);
+            catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -97,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void saveData(View view) {
-        cds.createContact(firstNameET.toString(),lastNameET.toString(),currentPhotoURI.toString());
+        Contact con = new Contact();
+        cds.createContact(firstNameET.getText().toString(),lastNameET.getText().toString(),currentPhotoURI.toString());
+        Toast.makeText(this, "Contact saved successfully.", Toast.LENGTH_SHORT).show();
     }
 
     public void switchToList(View view) {

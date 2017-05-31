@@ -13,7 +13,7 @@ import static java.sql.Types.NULL;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    static final String dbName="contactDB";
+    static final String dbName="contactDB.db";
     static final int dbVersion = 1;
     static final String contactsTable="Contacts";
     static final String coLID = "ContactsID";
@@ -27,7 +27,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + contactsTable + "(" + coLID + "INTEGER PRIMARY KEY AUTOINCREMENT, "+
+        db.execSQL("CREATE TABLE " + contactsTable + "(" + coLID + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
         colFName +" TEXT, "+colLName+" TEXT, "+colPhoto+" TEXT)");
 
     }
